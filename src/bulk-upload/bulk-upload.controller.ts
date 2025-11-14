@@ -1,10 +1,8 @@
-import { Controller, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Controller, Patch, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { BulkUploadService } from './bulk-upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as XLSX from 'xlsx';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 
-@UseGuards(JwtAuthGuard)
 @Controller('bulk-upload')
 export class BulkUploadController {
   constructor(private readonly bulkUploadService: BulkUploadService) { }

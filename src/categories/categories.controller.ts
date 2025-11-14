@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CreateCategoryDto } from './dto/createCategory.dto';
 import { UpdateCategoryDto } from './dto/updateCategory.dto';
 import { DeleteCategoryDto } from './dto/deleteCategory.dto';
@@ -11,7 +10,6 @@ import { DeleteCategoryDto } from './dto/deleteCategory.dto';
  * @remarks
  * Expone endpoints protegidos para crear, obtener, actualizar y eliminar categorías.
  */
-@UseGuards(JwtAuthGuard)
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}

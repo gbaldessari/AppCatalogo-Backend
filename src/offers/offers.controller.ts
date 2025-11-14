@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common';
 import { OffersService } from './offers.service';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { DeleteOfferDto } from './dto/deleteOffer.dto';
 import { CreateOfferDto } from './dto/createOffer.dto';
 import { UpdateOfferDto } from './dto/updateOffer.dto';
@@ -11,7 +10,6 @@ import { UpdateOfferDto } from './dto/updateOffer.dto';
  * @remarks
  * Expone endpoints protegidos para crear, obtener, actualizar y eliminar ofertas de productos.
  */
-@UseGuards(JwtAuthGuard)
 @Controller('offers')
 export class OffersController {
   constructor(private readonly offersService: OffersService) {}

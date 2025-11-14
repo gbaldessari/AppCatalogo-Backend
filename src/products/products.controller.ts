@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Get, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CreateProductDto } from './dto/createProduct.dto';
 import { DeleteManyProductsDto, DeleteProductDto } from './dto/deleteProduct.dto';
 import { UpdateProductDto } from './dto/updateProduct.dto';
@@ -11,7 +10,6 @@ import { UpdateProductDto } from './dto/updateProduct.dto';
  * @remarks
  * Expone endpoints protegidos para crear, obtener, actualizar y eliminar productos.
  */
-@UseGuards(JwtAuthGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) { }

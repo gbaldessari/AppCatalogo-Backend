@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { EmailModule } from './email/email.module';
 import { ProductsModule } from './products/products.module';
 import { OffersModule } from './offers/offers.module';
 import { CategoriesModule } from './categories/categories.module';
@@ -23,8 +21,6 @@ import { CatalogJobModule } from './catalog-job/catalog-job.module';
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.MONGO_URI || ''),
-    AuthModule,
-    EmailModule,
     ProductsModule,
     OffersModule,
     CategoriesModule,
