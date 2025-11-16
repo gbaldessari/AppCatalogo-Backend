@@ -81,7 +81,11 @@ export class ProductsService {
       foundProduct.categoryId = productData.categoryId;
     }
     if (productData.imageId !== foundProduct.imageId) {
-      await this.imagesService.deleteImage(foundProduct.imageId);
+      try {
+        await this.imagesService.deleteImage(foundProduct.imageId);
+      } catch (error) {
+        console.log(`Failed to delete image with ID ${foundProduct.imageId}:`, error);
+      }
       foundProduct.imageId = productData.imageId;
     }
     if (productData.price !== foundProduct.price) {
@@ -105,12 +109,12 @@ export class ProductsService {
       await this.offersService.deleteOffer({ productSku: productData.sku });
     }
     catch (error) {
-      console.error(`Error deleting offer for product with SKU ${productData.sku}:`, error);
+      console.log(`Error deleting offer for product with SKU ${productData.sku}:`, error);
     }
     try {
       await this.imagesService.deleteImage(foundProduct.imageId);
     } catch (error) {
-      console.error(`Error deleting image for product with SKU ${productData.sku}:`, error);
+      console.log(`Error deleting image for product with SKU ${productData.sku}:`, error);
     }
     await this.productModel.deleteOne({ sku: productData.sku });
   }
@@ -124,12 +128,12 @@ export class ProductsService {
     try {
       await Promise.all(foundProducts.map(product => this.offersService.deleteOffer({ productSku: product.sku })));
     } catch (error) {
-      console.error(`Error deleting offers for products with SKUs ${skus.join(', ')}:`, error);
+      console.log(`Error deleting offers for products with SKUs ${skus.join(', ')}:`, error);
     }
     try {
       await Promise.all(foundProducts.map(product => this.imagesService.deleteImage(product.imageId)));
     } catch (error) {
-      console.error(`Error deleting images for products with SKUs ${skus.join(', ')}:`, error);
+      console.log(`Error deleting images for products with SKUs ${skus.join(', ')}:`, error);
     }
     await this.productModel.deleteMany({ sku: { $in: skus } });
   }

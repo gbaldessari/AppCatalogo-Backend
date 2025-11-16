@@ -15,10 +15,6 @@ export class BulkUploadService {
     private readonly productsService: ProductsService,
   ) { }
 
-  private readonly logger = new Logger(BulkUploadService.name);
-
-  // --- NUEVOS MÉTODOS HELPER ---
-
   /**
    * Normaliza cadenas generales (acentos, mayúsculas, espacios).
    */
@@ -74,10 +70,15 @@ export class BulkUploadService {
     const failedRows: BulkUploadResponseDto[] = [];
     for (const row of rows) {
       try {
-        // Buscar categoría por nombre
-        const category = await this.categoriesService.findByName(row['Categoría']);
+        // Buscar categoría por nombre (usando nombre normalizado)
+        const normalizedCategoryName = this.normalize(row['Categoría']);
+        var category = await this.categoriesService.findByName(normalizedCategoryName);
         if (!category) {
-          failedRows.push({ row, reason: 'Categoría no encontrada' });
+          await this.categoriesService.createCategory({ name: normalizedCategoryName });
+          category = await this.categoriesService.findByName(normalizedCategoryName);
+        }
+        if (!category) {
+          failedRows.push({ row, reason: 'No se pudo obtener la categoría especificada' });
           continue;
         }
 

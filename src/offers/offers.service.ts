@@ -62,7 +62,11 @@ export class OffersService {
     if (!foundOffer) {
       throw new NotFoundException(`Offer for product with SKU ${offerData.productSku} not found.`);
     }
-    await this.imagesService.deleteImage(foundOffer.imageId);
+    try {
+      await this.imagesService.deleteImage(foundOffer.imageId);
+    } catch (error) {
+      console.log(`Failed to delete image with ID ${foundOffer.imageId}:`, error);
+    }
     await this.offerModel.deleteOne({ productSku: offerData.productSku }).exec();
   }
 
