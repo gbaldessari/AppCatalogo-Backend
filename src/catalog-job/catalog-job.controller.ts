@@ -1,10 +1,12 @@
-import { Body, Controller, Post, Res, Query, Get, Delete, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Post, Res, Query, Get, Delete, UploadedFiles, UseInterceptors, UseGuards } from '@nestjs/common';
 import { CatalogJobService } from './catalog-job.service';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { ImagesService, MulterFile } from 'src/images/images.service';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CategoriesPayloadWithIds, GenerateCatalogWithIdsDto } from 'src/generate-catalog/dto/generateCatalog.dto';
 import { CategoriesService } from 'src/categories/categories.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('catalog-job')
 export class CatalogJobController {
   constructor(

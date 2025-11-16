@@ -1,5 +1,6 @@
 import { Controller, Post, Get, Query, UploadedFile, UseGuards, UseInterceptors, Res } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { ImagesService, MulterFile } from './images.service';
 import { GetImageByIdDto } from './dto/getImageById.dto';
 import { Response } from 'express';
@@ -20,6 +21,7 @@ export class ImagesController {
    * @param file - Archivo de imagen recibido en la petición.
    * @returns El identificador de la imagen almacenada.
    */
+  @UseGuards(JwtAuthGuard)
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadImage(@UploadedFile() file: MulterFile) {
